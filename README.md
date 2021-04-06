@@ -47,6 +47,15 @@ staging 分支和 production 分支，分别对应测试环境和生产环境。
 
 修复紧急 Bug 可以查找，develop 分支或 master 分支上生产发布的 commit。签出独立的 hotfix 分支进行修改。
 
+![hotfix1](hotfix1.png)
+
+> master 签出
+
+![hotfix2](hotfix2.png)
+
+> develop 签出
+
+
 ## 为什么不是
 
 ### Git Flow
