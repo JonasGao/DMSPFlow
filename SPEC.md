@@ -3,6 +3,15 @@ DMSPFlow
 
 主要定义四个分支
 
+1. develop
+2. master
+3. staging
+4. production
+
+## 通用
+
+1. 所有 pull 操作，均使用 pull -r （pull rebase）
+
 ## develop
 
 develop 分支主要用于日常开发，对应开发环境。
