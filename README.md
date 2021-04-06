@@ -35,11 +35,17 @@ develop 分支只有最初来自 master 分支。之后，develop 将作为 mast
 
 **staging** 和 **production**
 
-staging 分支和 production 分支，分别对应测试环境和生产环境。这两个分支作为环境的发布分支。可以视为 master 上对应代码的拷贝，或者对应节点的引用。
+staging 分支和 production 分支，分别对应测试环境和生产环境。这两个分支作为环境的发布分支。可以视为 master 上对应代码的拷贝，或者对应节点的引用。因此，不允许直接在这两个分支提交代码。
 
-一般来说，对测试环境的改动，一般是修复开发时期产生的 Bug 或功能缺陷。在测试环境的上游代码修改修复是正确的，或常规的操作。
+一般来说，对测试环境的改动，一般是修复开发时期产生的 Bug 或功能缺陷。在测试环境的上游代码修改修复才是正确的选择。直接对测试环境的代码进行改动，反而是不明智的。因为如果这么修改，你还需要将相同的代码想办法同步到开发环境。
 
-除了以上的四个主要分支外，还定义了 hotfix 分支。主要用于做生产的临时修复。
+对生产环境来说。改动除了发布新功能以外，就是临时的 Bug 修复。一般这种 Bug 的紧急度都非常高，要求立即对生产进行应用。否则一般都会等到下次功能发布，一并发布修复。所以，正常的话，生产环境不会直接提交任何代码。对于紧急的 Bug 修复，和测试环境相同。如果直接在生产环境修改，之后再将代码反向同步到开发环境。反而会增加麻烦。
+
+保持 staging 分支和 production 分支不直接提交代码，可以让这两个分支始终都保持纯净。这样做，可以让管理人员或开发人员，随意的覆盖它们。
+
+**hotfix**
+
+修复紧急 Bug 可以查找，develop 分支或 master 分支上生产发布的 commit。签出独立的 hotfix 分支进行修改。
 
 ## 为什么不是
 
@@ -53,5 +59,5 @@ Github Flow 和 Gitlab Flow 是类似的操作流程，这两个流程以 master
 
 ## 引用
 
-1. http://www.ruanyifeng.com/blog/2015/12/git-workflow.html
-1. https://nvie.com/posts/a-successful-git-branching-model/
+1. 《Git 工作流程》http://www.ruanyifeng.com/blog/2015/12/git-workflow.html
+1. 《A successful Git branching model》https://nvie.com/posts/a-successful-git-branching-model/
