@@ -9,9 +9,7 @@ DMSPFlow
 
 ![示例](demo.png)
 
-## 主要分支
-
-**develop**
+## develop
 
 develop 分支主要用于日常开发，对应开发环境。
 
@@ -20,7 +18,7 @@ develop 分支主要用于日常开发，对应开发环境。
 
 让团队的开发人员在一个分支上开发，是有好处的。当然，前提是小型团队。它可以让团队不需要拘泥于分支的切换、管理和操作上。各个功能在开发时，遇到需要共享的通用代码时，也不需要思考额外的方案来共享它们。另外，由于多人同一分支开发，也可以尽早的发现不稳定代码。提高代码健壮性，简介提高代码可读性等。省去了一部分代码审核（review）的工作。
 
-**master**
+## master
 
 master 分支作为核心分支，作为其他分支的来源分支。staging 分支和 production 分支都直接来自 master 分支。
 
@@ -33,7 +31,7 @@ develop 分支只有最初来自 master 分支。之后，develop 将作为 mast
 1. 因为测试和生产环境被定义为 master 的下游。所以，即使成员可以随意提交代码。一旦代码需要更新，都可以使用 master 随意覆盖测试和生产环境；
 1. 所有需要提交到 master 的代码，被强制需要由 Owner 或 Maintainer 成员合并或者提交。这样可以让 Owner 和 Maintainer 成员能被主动告知代码变动，并进行代码审核。
 
-**staging** 和 **production**
+## staging 和 production
 
 staging 分支和 production 分支，分别对应测试环境和生产环境。这两个分支作为环境的发布分支。可以视为 master 上对应代码的拷贝，或者对应节点的引用。因此，不允许直接在这两个分支提交代码。
 
@@ -43,7 +41,7 @@ staging 分支和 production 分支，分别对应测试环境和生产环境。
 
 保持 staging 分支和 production 分支不直接提交代码，可以让这两个分支始终都保持纯净。这样做，可以让管理人员或开发人员，随意的覆盖它们。
 
-**hotfix**
+## hotfix
 
 修复紧急 Bug 可以查找，develop 分支或 master 分支上生产发布的 commit。签出独立的 hotfix 分支进行修改。
 
@@ -55,6 +53,19 @@ staging 分支和 production 分支，分别对应测试环境和生产环境。
 
 > develop 签出
 
+是从 develop 签出还是从 master 签出，逻辑和 master 的描述中，有关省略 develop 的逻辑类似。如果除了 develop 还有别的开发分支，可能更偏向于使用 master 签出。
+
+## tag
+
+因为不允许直接提交 production 分支，所以对于 hotfix 来说。追溯和查找 production 发布的开发 commit 就是比较困难的事情。所以，为了便于追溯和查找。在每次发布 production 的时候，都为发布的最终 commit 添加 tag。因为 staging 和 production 都不包含主要内容，或者如 hotfix 节所说。签出是在从 master 和 develop 签出的。所以，自然在 master 和 develop 分支上进行 tag 操作时最好的。
+
+### Calendar Versioning
+
+以现在业界更加敏捷的趋势来看，发布将会越来越密集。所以如果单纯的数字递增的方式生成版本号。一来会丢失一些信息，查找起来不方便。二来大量的无意义数字，看起来就很难于辨认。所以，统一使用日期做版本号，会是一个不错的选择。可以根据发布的频繁程度，可以自行选择按年、按月、按周进行递增。
+
+## 退化
+
+对于需要多功能隔离开发的情况，单个、共享的开发分支显然不支持。所以在这种情况下，可以自行进行其他选择。比如规范严谨的 Git Flow。
 
 ## 为什么不是
 
@@ -70,3 +81,4 @@ Github Flow 和 Gitlab Flow 是类似的操作流程，这两个流程以 master
 
 1. 《Git 工作流程》http://www.ruanyifeng.com/blog/2015/12/git-workflow.html
 1. 《A successful Git branching model》https://nvie.com/posts/a-successful-git-branching-model/
+1. 《日历化版本 / Calendar Versioning》https://calver.org/overview_zhcn.html
