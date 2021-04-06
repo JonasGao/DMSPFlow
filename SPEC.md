@@ -45,6 +45,7 @@ master 分支作为核心分支，作为其他分支的来源分支。staging �
 1. 签出需要根据最近的 tag 签出。
 1. 从 develop 签出的，需要 merge 回 develop。从 master 签出的，需要 merge 回 master。不允许 merge 到其他分支。
 1. 发布时，直接从 hotfix merge 到 production。
+1. 命名格式 hotfix/\<bug-id>
 
 ## tag
 
