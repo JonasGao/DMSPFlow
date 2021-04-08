@@ -12,6 +12,93 @@ DMSPFlow
 
 1. 所有 pull 操作，均使用 pull -r （pull rebase）
 
+## 场景
+
+### 常规开发
+
+1. 直接拉取远程 develop 分支进行开发，`git checkout develop`；
+1. 如果远程 develop 不存在；
+    1. 如果当前本地分支不是 master；
+        1. 签出 master 分支，`git checkout master`；
+        1. 更新远程仓库，`git pull -r`；
+    1. 创建新的 develop 分支，`git checkout -b develop`；
+    1. 创建新的远程 develop 分支，`git push --set-upstream origin develop`;
+1. 继续开发；
+1. 提交更新；
+    1. `git add <your changes>`
+    1. `git commit`
+    1. `git push`
+
+### 发布测试环境
+
+1. 如果本地分支不是 develop；
+    1. 签出 develop，`git checkout develop`；
+1. 如果远程 staging 分支不存在；
+    1. 如果当前本地分支不是 master；
+        1. 签出 master 分支，`git checkout master`；
+        1. 更新远程仓库，`git pull -r`；
+    1. 创建新的 staging 分支，`git checkout -b staging`；
+    1. 创建新的远程 staging 分支，`git push --set-upstream origin staging`;
+    1. 签出 develop，`git checkout develop`；
+1. 更新 develop 分支，`git pull -r`；
+1. 签出 master 分支，`git checkout master`；
+1. 更新 master 分支`git pull -r`；
+1. 合并 develop 分支到 master 分支，`git merge develop`；
+1. 如果有冲突；
+    1. 解决冲突并提交；
+1. 提交合并，`git push`；
+1. 如果需要重建 develop；请参考《常规开发》一节；
+1. （可选）签回 develop 分支，`git checkout develop`；
+
+### 发布生产环境
+
+1. 更新 staging 分支，保证内容正确；
+1. 签出 staging 分支，`git checkout staging`；
+1. 更新远程仓库，`git pull -r`； 
+1. 如果远程 production 分支不存在；
+    1. 创建新的 production 分支，`git checkout -b production`；
+    1. 创建新的远程 production 分支，`git push --set-upstream origin production`;
+1. 签出 production 分支，`git checkout production`；
+1. 合并 staging 分支到 production 分支，`git merge staging`；
+1. 理论上不应有冲突，如果有冲突说明有人直接对 production 分支进行了提交，或是 hotfix 过；
+    1. 确认是否需要重建（覆盖）production 分支；
+    1. 重建 production 分支；
+    1. 签出 staging 分支，`git checkout staging`；
+    1. 删除本地 production 分支，`git branch -D production`；
+    1. 创建新的 production 分支，`git checkout -b production staging`；
+    1. 创建新的远程 production 分支，`git push --set-upstream origin production --force`;
+1. 如果没有冲突；
+    1. 提交合并，`git push`；
+1. 创建 master tag，需要保证 master 没有新 commit；
+1. 签出 master 分支，`git checkout master`；
+1. 创建 tag，`git tag -a 'v2021.4.2'`；
+1. 提交 tag，`git push --tags`；
+1. （可选）签回 develop 分支，`git checkout develop`；
+1. （可选）删除老版本的 hotfix 分支；
+    1. `git branch -D hotfix/v2021.4.1`；
+    1. `git push origin :hotfix/v2021.4.1`；
+
+### 线上问题修复
+
+1. 找到最近的 tag 标签（以下以 tag `v2021.4.2` 为例）；
+1. 查找该 tag 是否已经存在对应的 hotfix 分支；
+1. 如果不存在，创建对应 hotfix 分支；
+    1. 签出 tag 为 hotfix 分支，`git checkout -b hotfix/v2021.4.2 v2021.4.2`；
+    1. 创建新的远程 hotfix 分支，`git push --set-upstream origin hotfix/v2021.4.2`;
+1. 如果已存在，直接签出 hotfix 分支，`git checkout hotfix/v2021.4.2`；
+1. 修改代码，提交；
+1. 提交 hotfix 到当前开发；
+    1. 签出 master 分支，`git checkout master`；
+    1. 更新远程仓库，`git pull -r`；
+    1. 合并 hotfix 分支到 master 分支，`git merge hotfix/v2021.4.2`；
+    1. 如果有冲突；
+    1. 解决冲突并提交；
+    1. 提交合并，`git push`；
+1. 提交 hotfix 到生产发布；
+    1. 签出 production 分支，`git checkout production`；
+    1. 合并 hotfix 分支到 production 分支，`git merge hotfix/v2021.4.2`；
+    1. 提交合并，`git push`；
+
 ## develop
 
 develop 分支主要用于日常开发，对应开发环境。

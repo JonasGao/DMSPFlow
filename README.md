@@ -53,7 +53,7 @@ staging 分支和 production 分支，分别对应测试环境和生产环境。
 
 > develop 签出
 
-是从 develop 签出还是从 master 签出，逻辑和 master 的描述中，有关省略 develop 的逻辑类似。如果除了 develop 还有别的开发分支，可能更偏向于使用 master 签出。
+hotfix 分支是从 develop 签出还是从 master 签出，逻辑和 master 的描述中有关省略 develop 的逻辑类似。如果除了 develop 还有别的开发分支，可能更偏向于使用 master 签出。
 
 ## tag
 
