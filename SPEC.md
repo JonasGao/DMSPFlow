@@ -83,14 +83,16 @@ DMSPFlow
 1. 找到最近的 tag 标签（以下以 tag `2021.4.2` 为例）；
 1. 查找该 tag 是否已经存在对应的 hotfix 分支；
 1. 如果不存在，创建对应 hotfix 分支；
-    1. 签出 tag 为 hotfix 分支，`git checkout -b hotfix/2021.4.2 2021.4.2`；
+    1. 签出 tag 为 hotfix 分支；
+        1. `git checkout -b hotfix/2021.4.2 2021.4.2^2`；
+        1. 如果上一条报错，使用 `git checkout -b hotfix/2021.4.2 2021.4.2`；
     1. 创建新的远程 hotfix 分支，`git push --set-upstream origin hotfix/2021.4.2`;
 1. 如果已存在，直接签出 hotfix 分支，`git checkout hotfix/2021.4.2`；
 1. 修改代码，提交；
 1. 提交 hotfix 到当前开发；
-    1. 签出 master 分支，`git checkout master`；
+    1. 签出 develop 分支，`git checkout develop`；
     1. 更新远程仓库，`git pull -r`；
-    1. 合并 hotfix 分支到 master 分支，`git merge hotfix/2021.4.2`；
+    1. 合并 hotfix 分支到 develop 分支，`git merge hotfix/2021.4.2`；
     1. 如果有冲突；
     1. 解决冲突并提交；
     1. 提交合并，`git push`；
