@@ -45,8 +45,18 @@ DMSPFlow
 1. 更新 master 分支`git pull -r`；
 1. 合并 develop 分支到 master 分支，`git merge develop`；
 1. 如果有冲突；
-    1. 解决冲突并提交；
-1. 提交合并，`git push`；
+    1. 需要判断是否重建 develop 分支？
+        1. 因为此时重建，只能基于 master 变基（rebase），所以需要通知团队内所有成员；
+        1. 如果是合并后重建，则不需要使用变基。可以直接参考《常规开发》一节;
+    1. 如果确定此时就重建；
+        1. 撤销 merge，`git merge --abort`；
+        1. 签出 develop 分支，`git checkout develop`；
+        1. 基于 master 变基，`git rebase master`；
+        1. 解决冲突；
+        1. 强制提交，覆盖远程，`git push origin develop --force`；
+        1. 从上层第 4 步（签出 master 分支）重新执行；
+    1. 如果不重建，则自行解决冲突；
+        1. 提交合并，`git push`；
 1. 如果需要重建 develop；请参考《常规开发》一节；
 1. （可选）签回 develop 分支，`git checkout develop`；
 
